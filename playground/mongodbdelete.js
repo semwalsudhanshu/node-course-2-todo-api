@@ -37,10 +37,11 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp',(err,client)=>{
 
 //DELETE USER WITH NAME SARIKA SEMWAL USING __ID
 db.collection('Users').findOneAndDelete({
-  __id:new ObjectID('5bdaaa11c8171907e8f94038')
-}).then((results)=>{
-  console.log(JSON.stringify(results,undefined,2));
+  _id: new ObjectID("5bdaaa11c8171907e8f94038")
+}).then((results) => {
+  console.log(JSON.stringify(results, undefined, 2));
 });
+
   //client.close();
 
 
