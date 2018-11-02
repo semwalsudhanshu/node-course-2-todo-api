@@ -29,7 +29,9 @@ app.listen(3000,()=>{
   console.log('Server started on port 3000');
 });
 
-
+module.exports={
+  app:app
+};
  // var newTodo =new Todo({text:'Cook dinner'});
  // newTodo.save().then((doc)=>{
  //   console.log('Saved Todo',doc);
