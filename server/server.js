@@ -1,3 +1,6 @@
+require('./config/config');
+
+
 const _ =require('lodash');
 const express=require('express');
 const bodyParser=require('body-parser');
@@ -10,7 +13,7 @@ var {User}=require('./models/User.js');
 
 
 var app=express();
-var port =process.env.PORT||3000;
+var port =process.env.PORT;
 app.use(bodyParser.json());
 
 app.post('/todos',(req,res)=>{
