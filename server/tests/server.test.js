@@ -8,10 +8,13 @@ const {app} =require('./../server');
 const {Todo}=require('./../models/Todo.js');
 const todos=[{
   _id: new ObjectID(),
-text:'First text todo'
+text:'First text todo',
+completed:true
 },
 { _id:new ObjectID(),
-  text:'second text todo'
+  text:'second text todo',
+  completed:true,
+  completedat:333
 }];
  beforeEach((done)=>{
    Todo.remove({}).then(()=>{
@@ -132,5 +135,35 @@ describe('DELETE/todos/:id',()=>{
     .delete('/todo/123')
       .expect(404)
       .end(done);
+  });
+});
+describe('PATCH/todos/:id',()=>{
+  it('should update atodo',(done)=>{
+    var id =todos[0]._id.toHexString();
+    var text='This should be new text';
+    request(app).patch('/todos/'+id)
+    .send({
+      completed:true,
+      text:text
+    })
+    .expect(200).expect((res)=>{
+      expect(res.body.todo.text).toBe(text);
+      expect(res.body.todo.completed).toBe(true);
+
+    }).end(done);
+  });
+  it('should clear completedat when todo is not completed',(done)=>{
+    var id =todos[1]._id.toHexString();
+    var text='This should be new text !!!!';
+    request(app).patch('/todos/'+id)
+    .send({
+      completed:false,
+      text:text
+    })
+    .expect(200).expect((res)=>{
+      expect(res.body.todo.text).toBe(text);
+      expect(res.body.todo.completed).toBe(false);
+
+    }).end(done);
   });
 });
