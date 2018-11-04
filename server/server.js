@@ -8,6 +8,7 @@ const {ObjectID}=require('mongodb');
 var {mongoose}=require('./db/mongoose.js');
 var {Todo}=require('./models/Todo.js');
 var {User}=require('./models/User.js');
+var {authenticate}=require('./middleware/authenticate.js');
 
 
 var app=express();
@@ -101,7 +102,6 @@ app.patch('/todos/:id',(req,res)=>{
 app.post('/users',(req,res)=>{
   var body = _.pick(req.body,['email','password']);
      var user = new User(body);
-
   user.save().then(()=>{
   //  res.send(user);
    return user.generateAuthtoken();
@@ -111,6 +111,12 @@ app.post('/users',(req,res)=>{
     return res.status(400).send(e);
   });
 
+});
+
+
+app.get('/users/me',authenticate,(req,res)=>{
+
+res.send(req.user);
 });
 //post/users
 app.listen(port,()=>{
